@@ -2,11 +2,12 @@ import streamlit as st
 from huggingface_hub import InferenceClient
 
 # --- CONFIGURATION ---
-st.set_page_config(page_title="Kosher AI", page_icon="🥯")
+st.set_page_config(page_title="Kosher AI", page_icon="🕎")
 
 # --- APP HEADER ---
-st.title("🥯 The Bracha Bot")
-st.caption("Status: RUNNING NEW CODE (Mistral Model)") # <--- This proves the update worked
+st.title("🕎 The Bracha Bot")
+st.subheader("Powered by Zephyr (Chat Model)")
+st.caption("Status: SYSTEM ONLINE")
 
 # --- SIDEBAR: API KEY INPUT ---
 if "HF_TOKEN" in st.secrets:
@@ -16,7 +17,7 @@ else:
 
 # --- MAIN APP LOGIC ---
 if api_key:
-    # We use Mistral because it is very stable
+    # Initialize the AI Connection
     client = InferenceClient(api_key=api_key)
 
     food_input = st.text_input("What food are you eating?", placeholder="e.g., A slice of pizza")
@@ -27,7 +28,7 @@ if api_key:
         else:
             with st.spinner("Consulting the digital Rabbi..."):
                 try:
-                    # We use chat_completion (The new method)
+                    # THE PERFECT PAIR: Zephyr Model + Chat Completion Method
                     messages = [
                         {
                             "role": "user", 
@@ -36,7 +37,7 @@ if api_key:
                     ]
                     
                     response = client.chat_completion(
-                        model="mistralai/Mistral-7B-Instruct-v0.3", 
+                        model="HuggingFaceH4/zephyr-7b-beta", # <--- Back to Zephyr
                         messages=messages, 
                         max_tokens=500
                     )
